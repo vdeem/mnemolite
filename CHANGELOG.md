@@ -62,6 +62,7 @@ First packaged release of Mnemolite.
 - Import: `mnemolite`; console script: `mnemolite-server`.
 - Python: 3.10+.
 - License: MIT.
+- Project and skill URLs: `https://github.com/vdeem/mnemolite`.
 - Build extras: `dev` for tests, `build` for release artifacts.
 - Wheel and sdist are built with `python -m build`; the wheel contains the
   server package and LICENSE, and the sdist contains the package, tests and

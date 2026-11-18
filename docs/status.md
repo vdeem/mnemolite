@@ -265,8 +265,8 @@ forces it.
 
 ### P3 — release operations
 
-- Publish `mnemolite` to the package index and tag the release.
-- Rename the GitHub repository to `mnemolite` and update the project and skill
-  URLs; the current links point at the existing repository slug.
+- Publish `mnemolite` to the package index; tag `v0.1.0` exists.
+- The GitHub repository is now `vdeem/mnemolite`; project and skill URLs point
+  at the renamed repository.
 - Add signed release artifacts or checksums if the distribution channel
   requires them.
