@@ -146,6 +146,7 @@ Read on demand, not upfront:
 - `docs/decisions.md` — ADRs (why SQLite, why zero-LLM, why Chroma, why multilingual-e5-small, vector reconciliation, edge provenance, transactional marking, dedupe semantics, MCP lifespan/data dir, graph lifecycle).
 - `docs/extraction.md` — entity/triple extraction rules, stop-list (`GENERIC_NOUNS`), negation conventions, and known spaCy failure modes.
 - `docs/skill.md` — Agent Skills packaging contract, install path, validation and release checklist for the `skill/` bundle.
+- `CHANGELOG.md` — release notes and user-facing changes.
 
 ## When you finish a task
 

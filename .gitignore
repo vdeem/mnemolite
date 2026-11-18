@@ -41,6 +41,7 @@ test_chroma_triples
 *.md
 # Exceptions
 !README.md
+!CHANGELOG.md
 !requirements.txt
 !AGENTS.md
 !docs/*.md

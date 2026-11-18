@@ -9,10 +9,19 @@ stores and joins them at recall time:
 
 - **Episodic memory** — raw texts and e5 embeddings in ChromaDB.
 - **Semantic memory** — entities and weighted relations in SQLite.
-- **MCP server** — `add_memory`, `recall_memory`, `consolidate_memory` over stdio.
+- **MCP server** — `add_memory`, `recall_memory`, `consolidate_memory`,
+  `delete_memory`, `decay_memory` over stdio.
 
 No OpenAI/Anthropic/Google call is made; spaCy and `sentence-transformers` run
 locally. SQLite is the source of truth and Chroma is a rebuildable index.
+
+## Release 0.1.0 (2026-11-18)
+
+The first packaged release is `mnemolite` 0.1.0, tagged `v0.1.0`. It ships the
+`mnemolite` import package, the `mnemolite-server` console script and the
+`mnemolite-memory` Agent Skills bundle. Wheel and sdist are built from the tag;
+the skill ZIP is generated separately and is not committed. User-facing changes
+are summarized in [CHANGELOG.md](../CHANGELOG.md).
 
 ## Correctness pass (2026-11-17)
 

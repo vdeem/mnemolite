@@ -120,7 +120,7 @@ committed.
 - [x] Agent skill package and installable distribution
 - [ ] Phase 2b — RAG adapters
 
-See [docs/status.md](docs/status.md) for the current status, recent changes and the detailed roadmap, and [docs/extraction.md](docs/extraction.md) for the extraction rules.
+See [docs/status.md](docs/status.md) for the current status, recent changes and the detailed roadmap, and [docs/extraction.md](docs/extraction.md) for the extraction rules. Release notes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
