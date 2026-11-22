@@ -5,6 +5,24 @@ All notable changes to Mnemolite are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-11-22
+
+Removes the Agent Skills bundle. The engine, its schema, the Python API and the
+MCP tools are unchanged.
+
+### Removed
+
+- `skill/` Agent Skills package, `docs/skill.md` and `tests/test_skill.py`.
+- Skill packaging references from `README.md`, `AGENTS.md`, `docs/status.md`
+  and `MANIFEST.in`.
+
+### Changed
+
+- The sdist no longer contains the skill bundle; 0.1.1 ships the package,
+  tests and documentation only.
+- `docs/decisions.md` records the removal in ADR-019 and marks ADR-018
+  superseded.
+
 ## [0.1.0] - 2026-11-18
 
 First packaged release of Mnemolite.

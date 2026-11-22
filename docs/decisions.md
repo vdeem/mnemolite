@@ -20,7 +20,7 @@ episode row, so `Embedder.ensure_ids()` reconciles on startup and
 
 **Decision:** never call OpenAI/Anthropic/Google/etc., not even for extraction.
 
-**Why:** the product's selling point is local, zero-cost, zero-latency memory
+**Why:** the product's value proposition is local, zero-cost, zero-latency memory
 that never ships user text off-device. Everything (entity/triple extraction,
 consolidation, ranking) must run locally with spaCy + embeddings.
 
@@ -312,6 +312,8 @@ nodes created before this change; new consolidation does not add them.
 
 ## ADR-018 — Mnemolite rebrand and Agent Skills bundle
 
+**Status:** superseded by ADR-019; the skill paths named below no longer exist.
+
 **Decision:** publish the distribution as `mnemolite` and use the same name for
 the import package and the `mnemolite-server` console script. Name the skill
 bundle `mnemolite-memory`, describe the packaging contract in `docs/skill.md`,
@@ -330,5 +332,24 @@ hard-coded author path in `mcp_config.json`, and no packaging tests.
 `mnemolite-server`. The skill source is tracked; the ZIP is built from it and
 never committed. The frontmatter uses the space-separated `allowed-tools` form,
 and the MCP config launches `mnemolite-server` with a portable data directory.
+
+## ADR-019 — Remove the Agent Skills bundle
+
+**Decision:** remove `skill/`, `docs/skill.md` and `tests/test_skill.py`, stop
+shipping the bundle in the sdist, and keep the engine MIT-licensed. Do not
+reintroduce an Agent Skills bundle without a new ADR and a release plan.
+
+**Why:** the bundle was a distribution experiment with no traction. It
+duplicated guidance the engine already needs to document, added a second
+packaging surface, and could not work without a local MCP server and model
+downloads. The engine is the product; the skill was packaging.
+
+**Consequences:** the 0.1.1 source tree and sdist contain no `skill/` and no
+`docs/skill.md`; the skill packaging tests are gone (99 tests remain). The
+0.1.0 sdist still contains the bundle, so that release should be deleted from
+PyPI rather than yanked. Old git commits and any already-downloaded 0.1.0
+artifacts retain the MIT licence; removal does not revoke it. A future skill
+package would be a separate artifact with its own release and delivery story,
+not part of this distribution.
 
 

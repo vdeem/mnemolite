@@ -5,7 +5,7 @@
 - **Language:** Python 3.10+ (modern typing: `list[str]`, `dict[str, Any]`, `X | None`).
 - **Core deps:** `spacy` (`en_core_web_sm`), `sentence-transformers` (`intfloat/multilingual-e5-small`), `chromadb`, `mcp` (`MCPServer`, 2.x API), `pytest`.
 - **Storage:** SQLite (`mnemolite.db`) for graph + episode metadata; ChromaDB (`./chroma_db`) for vectors.
-- **Non-goal:** calling any external LLM API. This is the product's core selling point — never introduce an OpenAI/Anthropic/Google/etc. dependency.
+- **Non-goal:** calling any external LLM API. This is the product's core value proposition — never introduce an OpenAI/Anthropic/Google/etc. dependency.
 
 ## Dependencies
 - `scikit-learn` and `networkx` were removed in `0.x`: nothing imports them since DBSCAN was dropped. Do not re-add either without an approved dependency change.
@@ -20,7 +20,6 @@
 - **Windows/sandboxed temp:** if `%TEMP%` is not writable, `tests/conftest.py` moves pytest's temp root to `.pytest_tmp/` (gitignored); force it with `pytest -q --basetemp=.pytest_tmp`.
 - **Start MCP server (stdio):** `python -m mnemolite.server` or `mnemolite-server`
 - **Build distributions:** `python -m build` (wheel and sdist in `dist/`)
-- **Rebuild the skill archive:** see `docs/skill.md` (PowerShell and POSIX commands)
 - **End-to-end MCP smoke test:** `python test_mcp_client.py` (spawns the server as a subprocess, so it needs unrestricted process/pipe creation)
 - **MCP store location:** `MNEMOLITE_DATA_DIR`, `MNEMOLITE_DB_PATH`, `MNEMOLITE_CHROMA_PATH` (defaults: checkout root or `~/.mnemolite`).
 - **MCP protocol/security check (before any release):** `mcpdoctor`
@@ -43,8 +42,10 @@ _constants.py # shared constants (GENERIC_NOUNS, SELF_NOUNS)
 server.py # lifespan-scoped MCP (MCPServer) tools — thin wrappers, no business logic
 tests/ # pytest suite (preferred location)
 docs/ # public long-form docs referenced from this file
-skill/ # Agent Skills package source; ZIP is a generated release artifact
 test_mcp_client.py # end-to-end MCP smoke test (repo root)
+
+The Agent Skills bundle (`skill/`) was removed in 0.1.1 (ADR-019). Do not
+reintroduce it without a new ADR and a release plan.
 
 **Distribution name:** the published distribution is `mnemolite`; the import
 package and console script are `mnemolite` / `mnemolite-server`. Do not rename
@@ -117,7 +118,6 @@ session start. It is a projection of SQLite, never a second source of truth.
   - `tests/test_recall.py` — similarity-driven recall, `max_distance` default and override, `RecallWeights` presets/env precedence and frozen instances, duplicate add/upsert, `dedupe=False`, metadata/salience merge, startup reindex, orphan-vector pruning, facts independent of the vector cutoff, fact deduplication/capping, blank input and truncation warnings.
   - `tests/test_brief.py` — Markdown brief rendering: empty graph, typed triples only, deterministic bytes, write-on-consolidate and skip-on-no-op.
   - `tests/test_server.py` — MCP data-dir/env resolution and tool registration (no model load).
-  - `tests/test_skill.py` — skill frontmatter contract, MCP client config and a reproducibly built archive layout (no model load).
 - `test_mcp_client.py` at the repo root is an **end-to-end MCP smoke test**, not a unit test. Run it manually before releases; do not add it to `tests/`.
 - `test_new.py` and `test_mnemolite.py` were removed; their scenarios now live in `tests/` above. Do not recreate them at the repo root.
 - Minimum coverage before any release:
@@ -134,7 +134,6 @@ session start. It is a projection of SQLite, never a second source of truth.
   - `recall` returns non-empty for an exact-match query and honours `max_distance`.
   - `RecallWeights` presets actually change ranking (`balanced` vs `emotional`), and env/explicit precedence holds.
   - The agent brief excludes `co_occurs`, is deterministic, and is not rewritten by a no-op consolidation.
-  - The skill frontmatter, MCP client config and a reproducibly built archive layout pass `tests/test_skill.py`.
 - `pytest` is configured with `testpaths = ["tests"]`; the root `test_mcp_client.py` is run manually.
 - CI: `.github/workflows/tests.yml` installs `.[dev]`, downloads the spaCy model and runs the suite on Python 3.10-3.12.
 - Run `pytest -q` and `python test_mcp_client.py` before declaring a task done.
@@ -145,7 +144,6 @@ Read on demand, not upfront:
 - `docs/status.md` — current status, what changed, known limitations, roadmap.
 - `docs/decisions.md` — ADRs (why SQLite, why zero-LLM, why Chroma, why multilingual-e5-small, vector reconciliation, edge provenance, transactional marking, dedupe semantics, MCP lifespan/data dir, graph lifecycle).
 - `docs/extraction.md` — entity/triple extraction rules, stop-list (`GENERIC_NOUNS`), negation conventions, and known spaCy failure modes.
-- `docs/skill.md` — Agent Skills packaging contract, install path, validation and release checklist for the `skill/` bundle.
 - `CHANGELOG.md` — release notes and user-facing changes.
 
 ## When you finish a task

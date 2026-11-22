@@ -46,6 +46,3 @@ test_chroma_triples
 !AGENTS.md
 !docs/*.md
 !docs/**/*.md
-!skill/**/*.md
-# Skill archives are release artifacts, rebuilt from source
-skill/*.zip

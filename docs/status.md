@@ -1,6 +1,6 @@
 # Mnemolite status and roadmap
 
-_Last updated: 2026-11-18._
+_Last updated: 2026-11-22._
 
 ## What Mnemolite is
 
@@ -15,13 +15,26 @@ stores and joins them at recall time:
 No OpenAI/Anthropic/Google call is made; spaCy and `sentence-transformers` run
 locally. SQLite is the source of truth and Chroma is a rebuildable index.
 
+## Release 0.1.1 — Agent Skills bundle removed (2026-11-22)
+
+The Agent Skills bundle was removed from the project. `skill/`,
+`docs/skill.md` and `tests/test_skill.py` are gone, `MANIFEST.in` no longer
+ships the bundle, and the 0.1.1 sdist contains only the engine, tests and
+documentation. The engine, its schema, the Python API and the MCP tools are
+unchanged.
+
+The 0.1.0 sdist still contains the bundle, so 0.1.0 is superseded. Publishing
+0.1.1 and deleting the 0.1.0 release are separate release steps. ADR-019
+records the decision.
+
 ## Release 0.1.0 (2026-11-18)
 
 The first packaged release is `mnemolite` 0.1.0, tagged `v0.1.0`. It ships the
 `mnemolite` import package, the `mnemolite-server` console script and the
 `mnemolite-memory` Agent Skills bundle. Wheel and sdist are built from the tag;
-the skill ZIP is generated separately and is not committed. User-facing changes
-are summarized in [CHANGELOG.md](../CHANGELOG.md).
+the skill ZIP is generated separately and is not committed. The Agent Skills
+bundle shipped in 0.1.0 was removed in 0.1.1. User-facing changes are
+summarized in [CHANGELOG.md](../CHANGELOG.md).
 
 ## Correctness pass (2026-11-17)
 
@@ -88,7 +101,8 @@ skill source is tracked under `skill/`, `docs/skill.md` defines the packaging
 contract, `SKILL.md` uses the space-separated `allowed-tools` string, and
 `mcp_config.json` launches `mnemolite-server` instead of a hard-coded local
 path. Packaging tests validate the frontmatter, the MCP config and a
-reproducibly built archive; ADR-018 records the decision.
+reproducibly built archive; ADR-018 records the decision. The Agent Skills
+bundle was removed in 0.1.1 (ADR-019); those paths no longer exist.
 
 ## Previous hardening session (2026-11-14)
 
@@ -202,17 +216,17 @@ suite on Python 3.10-3.12.
 
 - CI: `.github/workflows/tests.yml` runs the suite on Python 3.10-3.12;
   runtime deps are bounded in `pyproject.toml` and `requirements.txt`.
-- Tests: **103 passed** (`pytest -q`), including new coverage for exact-only
+- Tests: **99 passed** (`pytest -q`), including coverage for exact-only
   dedupe, near-duplicate corrections, generic query subjects, incremental
   decay, proportional deletion after decay, the legacy decay-column migration,
   typed facts independent of the vector cutoff, relation filtering before the
   graph LIMIT, normalized triple endpoints, pronoun/generic node rejection,
-  skill frontmatter/config/archive packaging, orphan-vector pruning, re-add
-  durability, shared-edge deletion, provenance cascade on decay, a simulated
-  mid-pass consolidation crash, negation, lemmatized endpoints, coordinated
-  verbs, nested entities, fact deduplication/capping, the content index,
-  undirected `co_occurs`, decay node pruning, frozen presets, blank input,
-  truncation warnings and server path resolution.
+  orphan-vector pruning, re-add durability, shared-edge deletion, provenance
+  cascade on decay, a simulated mid-pass consolidation crash, negation,
+  lemmatized endpoints, coordinated verbs, nested entities, fact
+  deduplication/capping, the content index, undirected `co_occurs`, decay node
+  pruning, frozen presets, blank input, truncation warnings and server path
+  resolution.
 - Defaults: `max_distance=0.5`, `MAX_RECALL_FACTS=20`, negation-aware
   predicates, lemmatized triple endpoints, frozen `RecallWeights`.
 - `add(..., dedupe=False)` stores duplicates; `dedupe=True` merges only exact
@@ -224,8 +238,9 @@ suite on Python 3.10-3.12.
   Schema additions are idempotent and additive.
 - Distribution: `mnemolite`; import package `mnemolite`; console script
   `mnemolite-server`.
-- Skill: `skill/mnemolite-memory/` source plus a generated, gitignored
-  `skill/mnemolite-memory.zip`; contract in `docs/skill.md`.
+- 0.1.1 removes the Agent Skills bundle; the engine and MCP surface are
+  unchanged. The bundle remains in the 0.1.0 sdist until that release is
+  deleted from PyPI.
 - Existing databases keep working. Facts extracted before `episode_edges`
   existed cannot be attributed to an episode, so deleting old episodes does not
   remove those legacy edges.
@@ -265,8 +280,9 @@ forces it.
 
 ### P3 — release operations
 
-- Publish `mnemolite` to the package index; tag `v0.1.0` exists.
-- The GitHub repository is now `vdeem/mnemolite`; project and skill URLs point
-  at the renamed repository.
+- Publish `mnemolite` 0.1.1 and delete the 0.1.0 release, whose sdist still
+  contains the removed bundle. `v0.1.0` stays on the original commit.
+- The GitHub repository is now `vdeem/mnemolite`; project URLs point at the
+  renamed repository.
 - Add signed release artifacts or checksums if the distribution channel
   requires them.

@@ -85,19 +85,6 @@ or `~/.mnemolite`; override it with `MNEMOLITE_DATA_DIR`, `MNEMOLITE_DB_PATH` or
 `MNEMOLITE_CHROMA_PATH`. This keeps the memory location independent of the
 directory the MCP client launches the server from.
 
-## Agent skill
-
-`skill/mnemolite-memory/` is a self-contained Agent Skills package that
-teaches an agent when and how to call the Mnemolite MCP tools. Build the
-upload-ready archive from that directory with the command in
-[docs/skill.md](docs/skill.md); the ZIP is a generated artifact and is not
-committed.
-
-- Packaging contract and release checklist: [docs/skill.md](docs/skill.md).
-- The skill requires the `mnemolite` package (or an editable checkout)
-  and a running `mnemolite-server` over stdio.
-- No external LLM API is called by the server or the skill.
-
 ## How it works
 
 1. **Episodic Memory** — Raw texts are embedded with `intfloat/multilingual-e5-small` and stored in ChromaDB.
@@ -117,7 +104,7 @@ committed.
 - [x] Reliability hardening and negation-aware extraction
 - [x] MCP server hardening and graph lifecycle
 - [x] Packaging, CI and hermetic MCP smoke
-- [x] Agent skill package and installable distribution
+- [x] Installable distribution
 - [ ] Phase 2b — RAG adapters
 
 See [docs/status.md](docs/status.md) for the current status, recent changes and the detailed roadmap, and [docs/extraction.md](docs/extraction.md) for the extraction rules. Release notes are in [CHANGELOG.md](CHANGELOG.md).
